@@ -3,21 +3,27 @@ import streamlit as st
 import pickle
 import re
 import nltk
+
+# ============================================
+# FIX: Download NLTK data for Streamlit Cloud
+# ============================================
+import ssl
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+# Download required NLTK data
+nltk.download('punkt', quiet=True)
+nltk.download('punkt_tab', quiet=True)
+nltk.download('stopwords', quiet=True)
+
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import pandas as pd
-
-# Download NLTK data (run once)
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt', quiet=True)
-    
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords', quiet=True)
-
 # ========================
 # LOAD MODELS
 # ========================
